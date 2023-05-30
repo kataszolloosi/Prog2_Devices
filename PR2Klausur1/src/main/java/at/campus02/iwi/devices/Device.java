@@ -1,5 +1,7 @@
 package at.campus02.iwi.devices;
 
+import java.util.Collections;
+
 public abstract class Device {
     protected String name;
     protected Processor processor;

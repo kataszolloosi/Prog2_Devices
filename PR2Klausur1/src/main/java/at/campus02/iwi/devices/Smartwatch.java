@@ -1,11 +1,6 @@
 package at.campus02.iwi.devices;
 
 public class Smartwatch extends Device {
-    protected String name;
-    protected Processor processor;
-    protected int releaseYear;
-    protected int nrProduced;
-
     protected int nrWristSizes;
 
     public Smartwatch(String name, Processor processor, int releaseYear, int nrProduced,int nrWristSizes) {
@@ -16,22 +11,12 @@ public class Smartwatch extends Device {
 
     @Override
     public double calculateProductionCost() {
-        double cost=100.0;//per Stück
-        double costPlus=0;
-        if(getNrWristSizes()==1){
-            cost=100.0;
-        }else if(getNrWristSizes()==2){
-            costPlus=cost*0.1;
-            cost+=costPlus;
-        }else if(getNrWristSizes()==3){
-            costPlus=cost*0.2;
-            cost+=costPlus;
-        }return cost * nrProduced;
+        return nrProduced * (100 + ((nrWristSizes - 1) * 10 ));
     }
 
     @Override
     public double calculateSupportCostForAYear(int year) {
-        return nrProduced*processor.getGeneration()*10;
+        return nrProduced*processor.getNrCores()*10;
     }
 
     public int getNrWristSizes() {

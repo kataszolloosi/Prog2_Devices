@@ -2,10 +2,7 @@ package at.campus02.iwi.devices;
 
 
 public class Smartphone extends Device {
-    protected String name;
-    protected Processor processor;
-    protected int releaseYear;
-    protected int nrProduced;
+
     protected int nrCameras;
 
     public Smartphone(String name, Processor processor, int releaseYear, int nrProduced, int nrCameras) {
@@ -16,33 +13,25 @@ public class Smartphone extends Device {
 
     @Override
     public double calculateProductionCost() {
-        double cameraCost = 20.0;
-        double processorCost = 100;
-        double sum = 0;
-        double discount = 0;
-
-        for (int i = 0; i < getProcessor().getGeneration() + 1; i++) {
-            processorCost *= i;
-            sum = (processorCost + (cameraCost * getNrCameras()) * getNrProduced());
-        }
-        if (getNrProduced() > 100000) {
-            discount = sum / 100 * 10;
-        } else if (getNrProduced() > 1000000) {
-            discount = sum / 100 * 20;
+        double result = processor.getGeneration() * 100;
+        result += nrCameras * 20;
+        if (nrProduced >= 1000000) {
+            result *= 0.8;
         } else {
-            discount = 0;
+            if (nrProduced >= 100000) {
+                result *= 0.9;
+            }
         }
-        return (sum + discount)*nrProduced;
+        return result * nrProduced;
     }
 
     @Override
     public double calculateSupportCostForAYear(int year) {
-        double supportKosten = 0;
-        if (releaseYear == year || releaseYear==year+1 ) {
-            return supportKosten*nrProduced;
-        } else {
-            return getProcessor().getGeneration()*40*nrProduced;
+        int diffYears = year - releaseYear;
+        if (diffYears == 0 || diffYears == 1) {
+            return 0.0;
         }
+        return processor.getGeneration() * 40 * nrProduced;
     }
 
     public String getName() {
@@ -88,11 +77,11 @@ public class Smartphone extends Device {
     @Override
     public String toString() {
         return "Smartphone{" +
-                "name='" + name + '\'' +
-                ", processor=" + processor +
-                ", releaseYear=" + releaseYear +
-                ", nrProduced=" + nrProduced +
-                ", nrCameras=" + nrCameras +
+                "name='" + name +
+                " processor=" + processor +
+                " releaseYear=" + releaseYear +
+        " nrProduced=" + nrProduced +
+        " nrCameras=" + nrCameras +
                 '}';
     }
 }

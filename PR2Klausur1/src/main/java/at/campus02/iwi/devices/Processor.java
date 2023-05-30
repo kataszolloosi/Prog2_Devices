@@ -38,9 +38,10 @@ public class Processor {
     @Override
     public String toString() {
         return "Processor{" +
-                "name='" + name + '\'' +
-                ", generation=" + generation +
-                ", nrCores=" + nrCores +
+        "name='" + name +
+                "generation=" + generation +
+        "nrCores=" + nrCores +
                 '}';
     }
+
 }

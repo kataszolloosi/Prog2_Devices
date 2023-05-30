@@ -2,10 +2,8 @@ package at.campus02.iwi.devices;
 
 
 public class Tablet extends Device {
-    protected String name;
-    protected Processor processor;
-    protected int releaseYear;
-    protected int nrProduced;
+
+
 
     protected boolean arCamera;
 
@@ -17,31 +15,31 @@ public class Tablet extends Device {
 
     @Override
     public double calculateProductionCost() {
-        double cost = 0;
-
-        if (getProcessor().getGeneration() == 1 && getProcessor().getNrCores() <= 2) {
-            if (getProcessor().getNrCores() == 1) {
-                cost = 150.0 * getNrProduced();
-            } else {
-                cost = 200 * getNrProduced();
-            }
+        double result = 700;
+        switch (processor.getGeneration()) {
+            case 1:
+                if (processor.getNrCores() == 1) {
+                    result = 150;
+                } else {
+                    result = 200;
+                }
+                break;
+            case 2:
+                if (processor.getNrCores() >= 8) {
+                    result = 450;
+                } else {
+                    if (processor.getNrCores() >= 4) {
+                        result = 400;
+                    } else {
+                        result = 350;
+                    }
+                }
+                break;
         }
-        if (getProcessor().getGeneration() == 2 && getProcessor().getNrCores() <= 8) {
-            if (getProcessor().getNrCores() <= 3) {
-                cost = 300 * getNrProduced();
-            } else if (getProcessor().getNrCores() <= 7) {
-                cost = 400 * getNrProduced();
-            } else if (getProcessor().getNrCores() <= 8) {
-                cost = 450 * getNrProduced();
-            }
+        if (arCamera) {
+            result += 50;
         }
-        if (getProcessor().getGeneration() == 3) {
-            cost = 700 * getNrProduced();
-        }
-        if (arCamera == true) {
-            cost = (cost + 50) * getNrProduced();
-        }
-        return cost * nrProduced;
+        return result * nrProduced;
     }
 
     @Override
